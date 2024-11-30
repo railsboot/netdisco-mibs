@@ -5,7 +5,7 @@ on:
       - '4.[0-9][0-9][0-9]'
 jobs:
   release_netdisco_mibs:
-    if: github.repository == 'netdisco/netdisco-mibs'
+    if: github.repository == 'railsboot/netdisco-mibs'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,7 +21,7 @@ jobs:
         continue-on-error: true
 
       - name: Download tarball
-        run: curl -LO https://github.com/netdisco/netdisco-mibs/archive/refs/tags/${{ env.GH_REF_SHORT }}.tar.gz
+        run: curl -LO https://github.com/railsboot/netdisco-mibs/archive/refs/tags/${{ env.GH_REF_SHORT }}.tar.gz
       - name: Rename tarball
         run: mv ${{ env.GH_REF_SHORT }}.tar.gz netdisco-mibs.tar.gz
       - name: Get upload URL
@@ -43,7 +43,7 @@ jobs:
         if: (steps.create_release.outcome == 'failure') || (steps.upload_tarball_after_release.outcome == 'failure')
         uses: Gottox/irc-message-action@v2
         with:
-          channel: '#netdisco'
+          channel: '#railsboot'
           nickname: github-actions
           message: |-
             🤖 Failed to release Netdisco MIBS ${{ env.GH_REF_SHORT }} 😭
@@ -52,7 +52,7 @@ jobs:
         if: steps.upload_tarball_after_release.outcome == 'success'
         uses: Gottox/irc-message-action@v2
         with:
-          channel: '#netdisco'
+          channel: '#railsboot'
           nickname: github-actions
           message: |-
             🤖 Released Netdisco MIBS ${{ env.GH_REF_SHORT }} 🎉
